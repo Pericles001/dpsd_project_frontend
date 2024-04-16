@@ -1,4 +1,5 @@
 import 'package:dpsd_project2_frontend_iteration_1/auth/register.dart';
+import 'package:dpsd_project2_frontend_iteration_1/auth/reset_password.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -55,11 +56,19 @@ class LoginPage extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'Password forgotten',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResetPasswordPage()),
+                    );
+                  },
+                  child: const Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
