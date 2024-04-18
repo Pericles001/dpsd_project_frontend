@@ -2,6 +2,8 @@ import 'package:dpsd_project2_frontend_iteration_1/auth/register.dart';
 import 'package:dpsd_project2_frontend_iteration_1/auth/reset_password.dart';
 import 'package:flutter/material.dart';
 
+import '../home/menu.dart';
+
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
@@ -60,7 +62,7 @@ class LoginPage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResetPasswordPage()),
+                      MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
                     );
                   },
                   child: const Text(
@@ -92,6 +94,12 @@ class LoginPage extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Process data.
+
+                      // Navigate to HomeMenu page after registration
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomeMenu()),
+                      );
                     }
                   },
                   style: ElevatedButton.styleFrom(
