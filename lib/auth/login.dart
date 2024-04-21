@@ -1,11 +1,11 @@
 import 'package:dpsd_project2_frontend_iteration_1/auth/register.dart';
 import 'package:dpsd_project2_frontend_iteration_1/auth/reset_password.dart';
-import 'package:dpsd_project2_frontend_iteration_1/components/dashboard.dart'; // Import the DashboardPage
+// Import the DashboardPage
 import 'package:dpsd_project2_frontend_iteration_1/home/menu.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
