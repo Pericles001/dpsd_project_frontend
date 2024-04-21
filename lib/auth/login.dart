@@ -1,6 +1,7 @@
 import 'package:dpsd_project2_frontend_iteration_1/auth/register.dart';
 import 'package:dpsd_project2_frontend_iteration_1/auth/reset_password.dart';
 import 'package:dpsd_project2_frontend_iteration_1/components/dashboard.dart'; // Import the DashboardPage
+import 'package:dpsd_project2_frontend_iteration_1/home/menu.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -96,7 +97,7 @@ class LoginPage extends StatelessWidget {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const DashboardPage()),
+                                builder: (context) => const HomeMenu()),
                           );
                         }
                       },

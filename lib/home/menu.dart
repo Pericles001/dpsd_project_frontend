@@ -122,32 +122,30 @@ class _HomeMenuState extends State<HomeMenu> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Theme.of(context).colorScheme.secondary,
-        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.cloud),
-            label: 'Ambient',
-          //   dont show the label
-
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.warning),
-            label: 'Alerts',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.question_answer),
-            label: 'FAQ',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pets),
-            label: 'Pigs Manager',
-          ),
-        ],
-      ),
+bottomNavigationBar: BottomNavigationBar(
+  selectedItemColor: Theme.of(context).colorScheme.secondary,
+  unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+  showSelectedLabels: false, // Don't show labels for selected items
+  showUnselectedLabels: false, // Don't show labels for unselected items
+  items: const <BottomNavigationBarItem>[
+    BottomNavigationBarItem(
+      icon: Icon(Icons.cloud),
+      label: 'Ambient',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.warning),
+      label: 'Alerts',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.question_answer),
+      label: 'FAQ',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.pets),
+      label: 'Pigs Manager',
+    ),
+  ],
+),
     );
   }
 }
