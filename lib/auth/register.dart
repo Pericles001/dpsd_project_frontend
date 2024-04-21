@@ -151,7 +151,9 @@ class RegisterPage extends StatelessWidget {
                               );
                             } catch (e) {
                               // Handle the exception
-                              print(e);
+                              if (kDebugMode) {
+                                print(e);
+                              }
                             }
                           }
                         },
