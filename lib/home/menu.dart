@@ -1,5 +1,5 @@
+import 'package:dpsd_project2_frontend_iteration_1/components/navigation_bar.dart';
 import 'package:flutter/material.dart';
-
 class HomeMenu extends StatefulWidget {
   const HomeMenu ({super.key});
 
@@ -122,30 +122,7 @@ class _HomeMenuState extends State<HomeMenu> {
           ),
         ),
       ),
-bottomNavigationBar: BottomNavigationBar(
-  selectedItemColor: Theme.of(context).colorScheme.secondary,
-  unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-  showSelectedLabels: false, // Don't show labels for selected items
-  showUnselectedLabels: false, // Don't show labels for unselected items
-  items: const <BottomNavigationBarItem>[
-    BottomNavigationBarItem(
-      icon: Icon(Icons.cloud),
-      label: 'Ambient',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.warning),
-      label: 'Alerts',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.question_answer),
-      label: 'FAQ',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.pets),
-      label: 'Pigs Manager',
-    ),
-  ],
-),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }
