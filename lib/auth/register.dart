@@ -7,13 +7,11 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-  final TextEditingController _roleController = TextEditingController();
 
   final ApiService _apiService = ApiService();
 
@@ -36,7 +34,7 @@ class RegisterPage extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                       TextFormField(
+                      TextFormField(
                         controller: _firstNameController,
                         decoration: const InputDecoration(
                           labelText: 'First Name',
@@ -56,18 +54,6 @@ class RegisterPage extends StatelessWidget {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your last name';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _roleController,
-                        decoration: const InputDecoration(
-                          labelText: 'Role',
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your role';
                           }
                           return null;
                         },
@@ -133,16 +119,39 @@ class RegisterPage extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            final response = await _apiService.registerUser(
-                              _firstNameController.text,
-                              _lastNameController.text,
-                              _emailController.text,
-                              _passwordController.text,
-                            );
+                            try {
+                              final response = await _apiService.registerUser(
+                                _firstNameController.text,
+                                _lastNameController.text,
+                                _emailController.text,
+                                _passwordController.text,
+                              );
 
-                            // Handle the response
-                            if (kDebugMode) {
-                              print(response);
+                              // If the account is created successfully, show a popup
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Success'),
+                                    content: const Text('Account created successfully'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('OK'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(); // Dismiss the popup
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => LoginPage()),
+                                          ); // Navigate to the login page
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } catch (e) {
+                              // Handle the exception
+                              print(e);
                             }
                           }
                         },
@@ -167,4 +176,3 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
-
