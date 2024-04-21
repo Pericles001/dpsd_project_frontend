@@ -9,7 +9,8 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   AnimationController? _controller;
   Animation<double>? _animation;
 
@@ -32,7 +33,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _controller!.forward().whenComplete(() {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Pig farmers')),
+        MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: 'Pig farmers')),
       );
     });
   }
