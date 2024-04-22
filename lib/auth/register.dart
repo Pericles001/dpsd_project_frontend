@@ -116,12 +116,6 @@ class RegisterPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        // onPressed: () {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => LoginPage()),
-                        //   );
-                        // },
                         onPressed: () async {
                           print('Register button clicked'); // Debugging print statement
                           if (_formKey.currentState!.validate()) {
@@ -136,31 +130,53 @@ class RegisterPage extends StatelessWidget {
 
                               print('registerUser method called'); // Debugging print statement
 
-                              // If the account is created successfully, show a popup
+                              // Check if the response contains a success message
+                              if (response.containsKey('message')) {
+                                // If the account is created successfully, show a popup
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Success'),
+                                      content: const Text('Account created successfully'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('OK'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(); // Dismiss the popup
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => LoginPage()),
+                                            ); // Navigate to the login page
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                throw Exception('Failed to register user: ${response['error']}');
+                              }
+                            } catch (e) {
+                              // Handle the exception
+                              print('Exception caught: $e'); // Debugging print statement
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Success'),
-                                    content: const Text('Account created successfully'),
+                                    title: const Text('Error'),
+                                    content: Text('Failed to register user: $e'),
                                     actions: <Widget>[
                                       TextButton(
                                         child: const Text('OK'),
                                         onPressed: () {
                                           Navigator.of(context).pop(); // Dismiss the popup
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => LoginPage()),
-                                          ); // Navigate to the login page
                                         },
                                       ),
                                     ],
                                   );
                                 },
                               );
-                            } catch (e) {
-                              // Handle the exception
-                              print('Exception caught: $e'); // Debugging print statement
                             }
                           } else {
                             print('Form validation failed'); // Debugging print statement
@@ -176,6 +192,68 @@ class RegisterPage extends StatelessWidget {
                         ),
                         child: const Text('Register'),
                       ),
+
+                      // ElevatedButton(
+                      //   // onPressed: () {
+                      //   //   Navigator.push(
+                      //   //     context,
+                      //   //     MaterialPageRoute(builder: (context) => LoginPage()),
+                      //   //   );
+                      //   // },
+                      //   onPressed: () async {
+                      //     print('Register button clicked'); // Debugging print statement
+                      //     if (_formKey.currentState!.validate()) {
+                      //       print('Form validation successful'); // Debugging print statement
+                      //       try {
+                      //         final response = await _apiService.registerUser(
+                      //           _firstNameController.text,
+                      //           _lastNameController.text,
+                      //           _emailController.text,
+                      //           _passwordController.text,
+                      //         );
+                      //
+                      //         print('registerUser method called'); // Debugging print statement
+                      //
+                      //         // If the account is created successfully, show a popup
+                      //         showDialog(
+                      //           context: context,
+                      //           builder: (BuildContext context) {
+                      //             return AlertDialog(
+                      //               title: const Text('Success'),
+                      //               content: const Text('Account created successfully'),
+                      //               actions: <Widget>[
+                      //                 TextButton(
+                      //                   child: const Text('OK'),
+                      //                   onPressed: () {
+                      //                     Navigator.of(context).pop(); // Dismiss the popup
+                      //                     Navigator.push(
+                      //                       context,
+                      //                       MaterialPageRoute(builder: (context) => LoginPage()),
+                      //                     ); // Navigate to the login page
+                      //                   },
+                      //                 ),
+                      //               ],
+                      //             );
+                      //           },
+                      //         );
+                      //       } catch (e) {
+                      //         // Handle the exception
+                      //         print('Exception caught: $e'); // Debugging print statement
+                      //       }
+                      //     } else {
+                      //       print('Form validation failed'); // Debugging print statement
+                      //     }
+                      //   },
+                      //   style: ElevatedButton.styleFrom(
+                      //     backgroundColor: Theme.of(context).colorScheme.secondary,
+                      //     foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                      //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      //     shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(4),
+                      //     ),
+                      //   ),
+                      //   child: const Text('Register'),
+                      // ),
                     ],
                   ),
                 ),
