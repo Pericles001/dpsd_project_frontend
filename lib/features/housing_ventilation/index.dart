@@ -1,8 +1,22 @@
+import 'package:dpsd_project2_frontend_iteration_1/features/housing_ventilation/set_treshold.dart';
 import 'package:flutter/material.dart';
-import 'package:dpsd_project2_frontend_iteration_1/components/navigation_bar.dart';
 
-class VentilationIndex extends StatelessWidget {
-  const VentilationIndex({super.key});
+import '../../auth/login.dart';
+import '../../home/menu.dart';
+import '../alerts/index.dart';
+import '../faq/index.dart';
+import '' ; // Import the VentilationSetThreshold widget
+import '../housing_ventilation/set_treshold.dart';
+
+class VentilationIndex extends StatefulWidget {
+  const VentilationIndex({Key? key}) : super(key: key);
+
+  @override
+  _VentilationIndexState createState() => _VentilationIndexState();
+}
+
+class _VentilationIndexState extends State<VentilationIndex> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +36,12 @@ class VentilationIndex extends StatelessWidget {
                     child: ListTile(
                       title: const Text('Set Threshold'),
                       onTap: () {
-                        // Implement functionality for 'Set Threshold' card
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VentilationSetThreshold(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -51,7 +70,83 @@ class VentilationIndex extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomNavigationBar(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+        showSelectedLabels: false, // Don't show labels for selected items
+        showUnselectedLabels: false, // Don't show labels for unselected items
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          switch (index) {
+            case 0:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomeMenu()),
+              );
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const VentilationIndex()),
+              );
+              break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AlertIndex()),
+              );
+              break;
+            case 3:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const FAQIndex()),
+              );
+              break;
+            case 4:
+            // Add your Pigs Manager page here
+              break;
+            case 5:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LoginPage()),
+              );
+          }
+        },
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'HomeMenu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.cloud),
+            label: 'Ambient',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.warning),
+            label: 'Alerts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.question_answer),
+            label: 'FAQ',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pets),
+            label: 'Pigs Manager',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Logout',
+          ),
+        ],
+      ),
     );
   }
 }
