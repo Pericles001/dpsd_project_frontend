@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../api/api_service.dart';
 import 'login.dart'; // Make sure to import the LoginPage
@@ -117,8 +116,16 @@ class RegisterPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
+                        // onPressed: () {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(builder: (context) => LoginPage()),
+                        //   );
+                        // },
                         onPressed: () async {
+                          print('Register button clicked'); // Debugging print statement
                           if (_formKey.currentState!.validate()) {
+                            print('Form validation successful'); // Debugging print statement
                             try {
                               final response = await _apiService.registerUser(
                                 _firstNameController.text,
@@ -126,6 +133,8 @@ class RegisterPage extends StatelessWidget {
                                 _emailController.text,
                                 _passwordController.text,
                               );
+
+                              print('registerUser method called'); // Debugging print statement
 
                               // If the account is created successfully, show a popup
                               showDialog(
@@ -151,10 +160,10 @@ class RegisterPage extends StatelessWidget {
                               );
                             } catch (e) {
                               // Handle the exception
-                              if (kDebugMode) {
-                                print(e);
-                              }
+                              print('Exception caught: $e'); // Debugging print statement
                             }
+                          } else {
+                            print('Form validation failed'); // Debugging print statement
                           }
                         },
                         style: ElevatedButton.styleFrom(
