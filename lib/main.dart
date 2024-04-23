@@ -76,12 +76,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Column(
                     children: [
+                      Image.network(
+                        'https://images.unsplash.com/photo-1691886790646-a89bf9c20e96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                        fit: BoxFit.cover,
+                      ),
                       Text(
-                        'Feature 1: Proper Housing Design and Ventilation',
+                        'Proper Housing Design and Ventilation',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 10),
@@ -98,12 +102,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Column(
+
                     children: [
+                      Image.network(
+                        'https://plus.unsplash.com/premium_photo-1679086008007-dded8f7d26a5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' ,
+                        fit: BoxFit.cover,),
                       Text(
-                        'Feature 2: Alerts System Based on Ambient Variables',
+                        'Alerts System Based on Ambient Variables',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 10),
