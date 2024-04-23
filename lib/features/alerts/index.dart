@@ -6,7 +6,7 @@ import '../faq/index.dart';
 import '../housing_ventilation/index.dart';
 
 class AlertIndex extends StatefulWidget {
-  const AlertIndex({Key? key}) : super(key: key);
+  const AlertIndex({super.key});
 
   @override
   _AlertIndexState createState() => _AlertIndexState();

@@ -1,3 +1,4 @@
+import 'package:dpsd_project2_frontend_iteration_1/features/housing_ventilation/monitor_variables.dart';
 import 'package:dpsd_project2_frontend_iteration_1/features/housing_ventilation/set_treshold.dart';
 import 'package:flutter/material.dart';
 
@@ -5,11 +6,10 @@ import '../../auth/login.dart';
 import '../../home/menu.dart';
 import '../alerts/index.dart';
 import '../faq/index.dart';
-import '' ; // Import the VentilationSetThreshold widget
-import '../housing_ventilation/set_treshold.dart';
+// Import the VentilationSetThreshold widget
 
 class VentilationIndex extends StatefulWidget {
-  const VentilationIndex({Key? key}) : super(key: key);
+  const VentilationIndex({super.key});
 
   @override
   _VentilationIndexState createState() => _VentilationIndexState();
@@ -53,6 +53,12 @@ class _VentilationIndexState extends State<VentilationIndex> {
                       title: const Text('Monitor Variables'),
                       onTap: () {
                         // Implement functionality for 'Monitor Variables' card
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const VentilationMonitor(),
+                            ),
+                        );
                       },
                     ),
                   ),
