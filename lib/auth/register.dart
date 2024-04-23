@@ -120,6 +120,11 @@ class RegisterPage extends StatelessWidget {
                           print('Register button clicked'); // Debugging print statement
                           if (_formKey.currentState!.validate()) {
                             print('Form validation successful'); // Debugging print statement
+                            // print the user inputs
+                            print('First Name: ${_firstNameController.text}');
+                            print('Last Name: ${_lastNameController.text}');
+                            print('Email: ${_emailController.text}');
+                            print('Password: ${_passwordController.text}');
                             try {
                               final response = await _apiService.registerUser(
                                 _firstNameController.text,
