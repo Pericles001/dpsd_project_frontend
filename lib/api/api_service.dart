@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/src/mock_client.dart';
 
 class ApiService {
-  static const String _baseUrl = 'http://10.0.2.2:8080/api';
+  // static const String _baseUrl = 'http://10.0.2.2:8080/api';
+  static const String _baseUrl = 'http://172.29.105.191:8080/api';
   static const Duration _timeoutDuration = Duration(seconds: 30); // Increase the timeout duration
 
   set client(MockClient client) {
@@ -18,9 +20,9 @@ class ApiService {
     };
     var request = http.Request('POST', Uri.parse('$_baseUrl/register'));
     request.body = json.encode({
-      "firstName": "test",
-      "lastName": "test13",
-      "email": "test24d@test",
+      "firstName": "new_test",
+      "lastName": "new_test13",
+      "email": "new_test24d@test",
       "password": "default"
     });
     request.headers.addAll(headers);
@@ -63,31 +65,31 @@ class ApiService {
   }
 }
 
-  Future<Map<String, dynamic>> registerUser(String firstName, String lastName, String email, String password) async {
-    try {
-      var headers = {
-        'Content-Type': 'application/json'
-      };
-      var request = http.Request('POST', Uri.parse('$_baseUrl/register'));
-      request.body = json.encode({
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "password": password
-      });
-      request.headers.addAll(headers);
+Future<Map<String, dynamic>> registerUser(String firstName, String lastName, String email, String password) async {
+  try {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('$_baseUrl/register'));
+    request.body = json.encode({
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "password": password
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send().timeout(_timeoutDuration); // Add the timeout
 
-      http.StreamedResponse response = await request.send().timeout(_timeoutDuration); // Add the timeout
-
-      if (response.statusCode == 200) {
-        return jsonDecode(await response.stream.bytesToString());
-      } else {
-        throw Exception('Failed to register user: ${response.reasonPhrase}');
-      }
-    } on TimeoutException catch (_) {
-      throw Exception('Request timed out. Please try again.');
+    if (response.statusCode == 200) {
+      return jsonDecode(await response.stream.bytesToString());
+      print('User registered successfully');
+    } else {
+      throw Exception('Failed to register user. Status code: ${response.statusCode}, Reason: ${response.reasonPhrase}');
     }
+  } on TimeoutException catch (_) {
+    throw Exception('Request timed out. Please try again.');
   }
+}
 
   Future<Map<String, dynamic>> loginUser(String email, String password) async {
     try {
@@ -107,6 +109,26 @@ class ApiService {
         return jsonDecode(await response.stream.bytesToString());
       } else {
         throw Exception('Failed to login user: ${response.reasonPhrase}');
+      }
+    } on TimeoutException catch (_) {
+      throw Exception('Request timed out. Please try again.');
+    }
+  }
+
+  Future <Map<String, dynamic>> checkHealth() async {
+    try {
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('GET', Uri.parse('$_baseUrl/health'));
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send().timeout(_timeoutDuration); // Add the timeout
+
+      if (response.statusCode == 200) {
+        return jsonDecode(await response.stream.bytesToString());
+      } else {
+        throw Exception('Failed to check health: ${response.reasonPhrase}');
       }
     } on TimeoutException catch (_) {
       throw Exception('Request timed out. Please try again.');
