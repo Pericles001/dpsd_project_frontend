@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class VentilationSetThreshold extends StatefulWidget {
-  const VentilationSetThreshold({Key? key}) : super(key: key);
+  const VentilationSetThreshold({super.key});
 
   @override
   _VentilationSetThresholdState createState() => _VentilationSetThresholdState();
