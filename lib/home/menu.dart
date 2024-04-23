@@ -6,7 +6,7 @@ import '../features/alerts/index.dart';
 import '../features/faq/index.dart';
 
 class HomeMenu extends StatefulWidget {
-  const HomeMenu ({Key? key}) : super(key: key);
+  const HomeMenu ({super.key});
 
   @override
   _HomeMenuState createState() => _HomeMenuState();
