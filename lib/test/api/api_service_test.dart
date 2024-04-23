@@ -1,131 +1,79 @@
-import 'package:flutter/material.dart';
-import 'package:dpsd_project2_frontend_iteration_1/api/api_service.dart';
+import 'package:test/test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
+import 'package:dpsd_project2_frontend_iteration_1/api/api_service.dart'; // Add this line
 
-class VentilationMonitor extends StatefulWidget {
-  const VentilationMonitor({Key? key}) : super(key: key);
+void main() {
+  group('ApiService', () {
+    test('registerTestUser', () async {
+      final apiService = ApiService();
 
-  @override
-  _VentilationMonitorState createState() => _VentilationMonitorState();
-}
-
-class _VentilationMonitorState extends State<VentilationMonitor> {
-  double? temperature;
-  double? humidity;
-  final apiService = ApiService();
-
-  @override
-  void initState() {
-    super.initState();
-    showCityDialog();
-  }
-
-  Future<void> showCityDialog() async {
-    String? city;
-    await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Enter City'),
-          content: TextField(
-            onChanged: (value) {
-              city = value;
-            },
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(
-              hintText: "Please enter the city of the farm",
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: const Text('Submit'),
-              onPressed: () {
-                Navigator.pop(context);
-                if (city != null && city!.isNotEmpty) {
-                  fetchData(city!);
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> fetchData(String city) async {
-    try {
-      var data = await apiService.fetchWeatherData(city);
-
-      setState(() {
-        temperature = data['temperature'];
-        humidity = data['humidity'];
+      // Mock the http client
+      apiService.client = MockClient((request) async {
+        return http.Response('{"success": true}', 200);
       });
-    } catch (e) {
-      throw Exception('Failed to load data: $e');
-    }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Monitor Variables'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Card(
-            elevation: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    'Temperature',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Current temperature: ${temperature ?? "Loading..."}°C',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Card(
-            elevation: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    'Humidity',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Current humidity: ${humidity ?? "Loading..."}%',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+      final response = await apiService.registerTestUser();
+
+      expect(response, '{"success": true}');
+
+    });
+
+    // test a defined user: test12, test13, test24d@test, default
+    test('registerUserCustom', () async {
+      final apiService = ApiService();
+
+      // Mock the http client
+      apiService.client = MockClient((request) async {
+        return http.Response('{"success": true}', 200);
+      });
+
+      final response = await apiService.registerUser('name_1', 'name_1', 'name_1@gmail.com', 'name_1');
+
+      expect(response, '{"success": true}');
+
+    });
+
+
+    test('fetchWeatherData', () async {
+      final apiService = ApiService();
+
+      // Mock the http client
+      apiService.client = MockClient((request) async {
+        return http.Response('{"days": [{"temp": 20, "humidity": 50, "precip": 0.5, "sunrise": "06:00", "sunset": "18:00", "windgust": 10, "windspeed": 5, "winddir": "N"}]}', 200);
+      });
+
+      final response = await apiService.fetchWeatherData('Nairobi');
+
+      print(" Response: $response");
+
+      expect(response, {
+        'temperature': 20,
+        'humidity': 50,
+        'precipitation': 0.5,
+        'sun': {
+          'sunrise': '06:00',
+          'sunset': '18:00',
+        },
+        'wind': {
+          'windgust': 10,
+          'windspeed': 5,
+          'winddir': 'N',
+        },
+      });
+    });
+
+
+
+    test('checkHealth',() async {
+      final apiService = ApiService();
+      apiService.client = MockClient((request) async {
+        return http.Response('{"status": "UP"}', 200);
+      });
+
+      final response = await apiService.checkHealth();
+
+      expect(response, {"status": "UP"});
+    });
+  });
 }
