@@ -4,7 +4,6 @@ import 'package:dpsd_project2_frontend_iteration_1/features/housing_ventilation/
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../auth/login.dart';
 import '../features/alerts/index.dart';
 import '../features/faq/index.dart';
 import '../features/profile/change_password.dart';
@@ -55,9 +54,14 @@ class _HomeMenuState extends State<HomeMenu> {
   }
 
   _updateUserInfo() async {
-    // Here you can call your API to update the user information in the database
-    // After the update, you can save the updated information in the shared preferences
+    // Create an instance of ApiService
+    ApiService apiService = ApiService();
+
+    // Get the token from shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token') ?? '';
+
+    // Prepare the user data
     var user = {
       'firstName': _firstNameController.text.isEmpty
           ? firstName
@@ -67,6 +71,16 @@ class _HomeMenuState extends State<HomeMenu> {
           : _lastNameController.text,
       'email': _emailController.text.isEmpty ? email : _emailController.text,
     };
+
+    // Call the API to update the user information
+    var response = await apiService.updateUser(
+      token,
+      user['firstName']!,
+      user['lastName']!,
+      user['email']!,
+    );
+
+    // If the update was successful, save the updated information in the shared preferences
     await prefs.setString('user', jsonEncode(user));
     setState(() {
       firstName = user['firstName'] ?? '';
@@ -75,7 +89,7 @@ class _HomeMenuState extends State<HomeMenu> {
 
       isEditing = false;
     });
-  }
+    }
 
   _deleteAccount() async {
     // Show warning dialog
@@ -120,7 +134,9 @@ class _HomeMenuState extends State<HomeMenu> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(success ? 'Success' : 'Error'),
-            content: Text(success ? 'Account deleted successfully' : 'Failed to delete account'),
+            content: Text(success
+                ? 'Account deleted successfully'
+                : 'Failed to delete account'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -140,6 +156,15 @@ class _HomeMenuState extends State<HomeMenu> {
         },
       );
     }
+  }
+
+  _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MyApp()),
+    );
   }
 
   @override
@@ -284,10 +309,8 @@ class _HomeMenuState extends State<HomeMenu> {
               // Add your Pigs Manager page here
               break;
             case 5:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
+              _logout();
+              break;
           }
         },
         items: const <BottomNavigationBarItem>[
