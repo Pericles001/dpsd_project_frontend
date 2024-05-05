@@ -19,7 +19,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(), // Set SplashScreen as the home
+      // Define the routes
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
+        '/home': (context) => const MyHomePage(title: 'Pig farmers'),
+      },
+      // Set the initial route
+      initialRoute: '/',
     );
   }
 }
@@ -129,19 +137,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
+
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: const Text('Login'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterPage()),
-                      );
+
+                      Navigator.pushNamed(context, '/register');
                     },
                     child: const Text('Register'),
                   ),
