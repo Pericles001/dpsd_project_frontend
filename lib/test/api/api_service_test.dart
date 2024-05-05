@@ -5,7 +5,8 @@ import 'package:dpsd_project2_frontend_iteration_1/api/api_service.dart';
 import 'dart:convert';
 
 void main() {
-  group('ApiService', () {
+  group('ApiService', ()
+  {
     test('registerTestUser', () async {
       final apiService = ApiService();
       final dioAdapter = DioAdapter(dio: apiService.dio);
@@ -15,7 +16,7 @@ void main() {
 
       dioAdapter.onPost(
         '${ApiService.baseUrl}/register',
-        (request) => request.reply(200, jsonEncode({"success": true})),
+            (request) => request.reply(200, jsonEncode({"success": true})),
         // Convert Map to String
         data: {
           "firstName": "new_test",
@@ -44,7 +45,7 @@ void main() {
 
       dioAdapter.onPost(
         '${ApiService.baseUrl}/register',
-        (request) => request.reply(200, {"success": false}),
+            (request) => request.reply(200, {"success": false}),
         // No need to encode to JSON here
         data: {
           "firstName": "name_2",
@@ -70,20 +71,21 @@ void main() {
 
       dioAdapter.onGet(
         'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London?unitGroup=metric&key=LQ892399QVFZUUCELK66XYCSF&contentType=json',
-        (request) => request.reply(200, {
-          "days": [
-            {
-              "temp": 15,
-              "humidity": 50,
-              "precip": 0.5,
-              "sunrise": "06:00",
-              "sunset": "18:00",
-              "windgust": 10,
-              "windspeed": 5,
-              "winddir": "N"
-            }
-          ]
-        }),
+            (request) =>
+            request.reply(200, {
+              "days": [
+                {
+                  "temp": 15,
+                  "humidity": 50,
+                  "precip": 0.5,
+                  "sunrise": "06:00",
+                  "sunset": "18:00",
+                  "windgust": 10,
+                  "windspeed": 5,
+                  "winddir": "N"
+                }
+              ]
+            }),
       );
 
       final response = await apiService.fetchWeatherData('London');
@@ -115,7 +117,7 @@ void main() {
 
       dioAdapter.onGet(
         '${ApiService.baseUrl}/health',
-        (request) => request.reply(200, {"status": "DOWN"}),
+            (request) => request.reply(200, {"status": "DOWN"}),
       );
 
       final response = await apiService.checkHealth();
@@ -149,7 +151,7 @@ void main() {
 
       dioAdapter.onGet(
         '${ApiService.baseUrl}/users',
-        (request) => request.reply(200, {"users": mockUsers}),
+            (request) => request.reply(200, {"users": mockUsers}),
       );
 
       final response = await apiService.getAllUsers();
@@ -158,5 +160,75 @@ void main() {
 
       expect(response, {"users": mockUsers});
     });
+    test('loginUser', () async {
+      final apiService = ApiService();
+      final dioAdapter = DioAdapter(dio: apiService.dio);
+
+      // Mock the Dio client
+      apiService.dio.httpClientAdapter = dioAdapter;
+
+      dioAdapter.onPost(
+        '${ApiService.baseUrl}/login',
+            (request) => request.reply(200, {"success": true}),
+        data: {"email": "fg@gmail.com", "password": "fg"},
+      );
+    });
+
+test('updateUser', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  // Mock the Dio client
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  // Mock token
+  const token = 'mock_token';
+
+  dioAdapter.onPut(
+    '${ApiService.baseUrl}/users',
+    (request) => request.reply(200, {"success": true}),
+    data: {
+      "firstName": "new_test",
+      "lastName": "new_test13",
+      "email": "new_test245d@test"
+    },
+    headers: {
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  final response = await apiService.updateUser(
+      token, 'new_test', 'new_test13', 'new_test245d@test');
+
+  print(" Response: $response");
+
+  expect(response, {"success": true});
+});
+
+test('deleteUser', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  // Mock the Dio client
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  // Mock token
+  const token = 'mock_token';
+
+  dioAdapter.onDelete(
+    '${ApiService.baseUrl}/user/profile',
+    (request) => request.reply(200, {}),
+    headers: {
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  final success = await apiService.deleteUser(token);
+
+  print(" Success: $success");
+
+  expect(success, true);
+});
+
   });
 }
