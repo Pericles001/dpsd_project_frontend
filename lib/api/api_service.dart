@@ -60,6 +60,26 @@ class ApiService {
     }
   }
 
+Future<bool> resetPassword(String email, String newPassword) async {
+  try {
+    var response = await dio.put(
+      '$baseUrl/user/reset-password',
+      data: {
+        "email": email,
+        "password": newPassword
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Failed to reset password');
+    }
+  } catch (e) {
+    throw Exception('Failed to reset password: $e');
+  }
+}
+
   Future<Map<String, dynamic>> registerUser(
       String firstName, String lastName, String email, String password) async {
     try {
@@ -105,31 +125,32 @@ class ApiService {
   }
 
 
-  Future <Map<String, dynamic>> updateUser(String token, String firstName, String lastName, String email) async {
-    try {
-      var response = await dio.put(
-        '$baseUrl/users',
-        data: {
-          "firstName": firstName,
-          "lastName": lastName,
-          "email": email
+Future <Map<String, dynamic>> updateUser(String token, String firstName, String lastName, String email) async {
+  try {
+    var response = await dio.put(
+      '$baseUrl/user/profile',
+      data: {
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email
+      },
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
         },
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
+      ),
+    );
 
-      if (response.statusCode == 200) {
-        return response.data;
-      } else {
-        throw Exception('Failed to update user');
-      }
-    } catch (e) {
-      throw Exception('Failed to update user: $e');
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Failed to update user');
     }
+  } catch (e) {
+    throw Exception('Failed to update user: $e');
   }
+}
 
 Future<Map<String, dynamic>> changePassword(String token, String newPassword) async {
   try {
