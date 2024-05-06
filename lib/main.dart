@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fit: BoxFit.cover,
                       ),
                       const Text(
-                        'Proper Housing Design and Ventilation',
+                        'Proper Housing Design and Ventilation.',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
