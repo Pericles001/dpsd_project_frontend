@@ -230,5 +230,187 @@ test('deleteUser', () async {
   expect(success, true);
 });
 
+test('addPig', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  dioAdapter.onPost(
+    '${ApiService.baseUrl}/pigs',
+    (request) => request.reply(200, {"success": true}),
+    data: {"name": "test", "weight": 30.0, "age": 2, "breed": "test breed"},
+    headers: {
+      'Authorization': 'Bearer mock_token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  final response = await apiService.addPig(
+      'mock_token', 'test', 30.0, 2, 'test breed');
+
+  expect(response, {"success": true});
+});
+
+test('addVitals', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  dioAdapter.onPost(
+    '${ApiService.baseUrl}/pig_vitals',
+    (request) => request.reply(200, {"success": true}),
+    data: {
+      "pigId": 1,
+      "temperature": 37.0,
+      "heartRate": 80,
+      "respiratoryRate": 20,
+      "weight": 30.0
+    },
+    headers: {
+      'Authorization': 'Bearer mock_token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  final response = await apiService.addVitals(
+      'mock_token', 1, 37.0, 80, 20, 30.0);
+
+  expect(response, {"success": true});
+});
+
+test('getAllPigs', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  var mockPigs = [
+    {
+      "id": 1,
+      "name": "test",
+      "weight": 30.0,
+      "age": 2,
+      "breed": "test breed"
+    },
+    // Add more pigs as needed
+  ];
+
+  dioAdapter.onGet(
+    '${ApiService.baseUrl}/pigs',
+    (request) => request.reply(200, mockPigs),
+    headers: {
+      'Authorization': 'Bearer mock_token',
+    },
+  );
+
+  final response = await apiService.getAllPigs('mock_token');
+
+  expect(response, mockPigs);
+});
+
+test('getPigVitals', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  var mockVitals = [
+    {
+      "pigId": 1,
+      "temperature": 37.0,
+      "heartRate": 80,
+      "respiratoryRate": 20,
+      "weight": 30.0
+    },
+    // Add more vitals as needed
+  ];
+
+  dioAdapter.onGet(
+    '${ApiService.baseUrl}/pig_vitals',
+    (request) => request.reply(200, mockVitals),
+    headers: {
+      'Authorization': 'Bearer mock_token',
+    },
+  );
+
+  final response = await apiService.getPigVitals('mock_token', 1);
+
+  expect(response, mockVitals);
+});
+
+test('addAmbientVariable', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  dioAdapter.onPost(
+    '${ApiService.baseUrl}/ambient_variables',
+    (request) => request.reply(200, {"success": true}),
+    data: {"name": "test", "treshold": 30.0},
+    headers: {
+      'Authorization': 'Bearer mock_token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  final response = await apiService.addAmbientVariable(
+      'mock_token', 'test', 30.0);
+
+  expect(response, {"success": true});
+});
+
+test('getAmbientVariables', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  var mockVariables = [
+    {
+      "id": 1,
+      "name": "test",
+      "treshold": 30.0
+    },
+    // Add more variables as needed
+  ];
+
+  dioAdapter.onGet(
+    '${ApiService.baseUrl}/ambient_variables',
+    (request) => request.reply(200, mockVariables),
+    headers: {
+      'Authorization': 'Bearer mock_token',
+    },
+  );
+
+  final response = await apiService.getAmbientVariables('mock_token');
+
+  expect(response, mockVariables);
+});
+
+test('identifyDisease', () async {
+  final apiService = ApiService();
+  final dioAdapter = DioAdapter(dio: apiService.dio);
+
+  apiService.dio.httpClientAdapter = dioAdapter;
+
+  dioAdapter.onPost(
+    '${ApiService.baseUrl}/disease',
+    (request) => request.reply(200, "test disease"),
+    data: {"symptoms": "test symptoms"},
+    headers: {
+      'Authorization': 'Bearer mock_token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  final response = await apiService.identifyDisease(
+      'mock_token', 'test symptoms');
+
+  expect(response, "test disease");
+});
+
   });
 }
