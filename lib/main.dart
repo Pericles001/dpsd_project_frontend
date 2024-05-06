@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'Our application helps you design the housing and ventilation for your pigs to ensure their health and productivity.',
+                        'Learn about proper design, housing and ventilation for your pigs to ensure their health and productivity.',
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
