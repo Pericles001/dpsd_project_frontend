@@ -185,10 +185,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return true;
       } else {
-        throw Exception('Failed to delete user');
+        throw Exception('Failed to delete account');
       }
     } catch (e) {
-      throw Exception('Failed to delete user: $e');
+      throw Exception('Failed to delete account: $e');
     }
   }
 
