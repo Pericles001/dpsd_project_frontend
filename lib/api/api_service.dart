@@ -24,10 +24,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception('Failed to register test user');
+        throw Exception('Registration Failed');
       }
     } catch (e) {
-      throw Exception('Failed to register test user: $e');
+      throw Exception('Registration Failed: $e');
     }
   }
 
