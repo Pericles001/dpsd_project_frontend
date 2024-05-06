@@ -115,10 +115,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception('Failed to login user');
+        throw Exception('Login Failed');
       }
     } catch (e) {
-      throw Exception('Failed to login user: $e');
+      throw Exception('Login Failed: $e');
     }
   }
 
