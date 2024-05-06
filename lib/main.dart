@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fit: BoxFit.cover,
                       ),
                       const Text(
-                        'Proper Housing Design and Ventilation',
+                        'Proper Housing Design and Ventilation.',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'Our application provides an alert system based on ambient variables to ensure the well-being of your pigs.',
+                        'Get alerts when drastic changes in ambient variables occur to ensure the well-being of your pigs.',
                         style: TextStyle(fontSize: 16),
                       ),
                     ],

@@ -175,7 +175,7 @@ class RegisterPage extends StatelessWidget {
                                   return AlertDialog(
                                     title: const Text('Error'),
                                     content: Text(
-                                        'Failed to register user: ${e.message}'),
+                                        'Registration Failed: ${e.message}'),
                                     actions: <Widget>[
                                       TextButton(
                                         child: const Text('OK'),
@@ -201,7 +201,7 @@ class RegisterPage extends StatelessWidget {
                                   return AlertDialog(
                                     title: const Text('Error'),
                                     content:
-                                        Text('Failed to register user: $e'),
+                                        Text('Registration Failed: $e'),
                                     actions: <Widget>[
                                       TextButton(
                                         child: const Text('OK'),

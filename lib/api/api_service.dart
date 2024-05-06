@@ -24,10 +24,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception('Failed to register test user');
+        throw Exception('Registration Failed');
       }
     } catch (e) {
-      throw Exception('Failed to register test user: $e');
+      throw Exception('Registration Failed: $e');
     }
   }
 
@@ -115,10 +115,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception('Failed to login user');
+        throw Exception('Login Failed');
       }
     } catch (e) {
-      throw Exception('Failed to login user: $e');
+      throw Exception('Login Failed: $e');
     }
   }
 
@@ -185,10 +185,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return true;
       } else {
-        throw Exception('Failed to delete user');
+        throw Exception('Failed to delete account');
       }
     } catch (e) {
-      throw Exception('Failed to delete user: $e');
+      throw Exception('Failed to delete account: $e');
     }
   }
 
@@ -214,10 +214,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception('Failed to check health');
+        throw Exception('Health Check failed');
       }
     } catch (e) {
-      throw Exception('Failed to check health: $e');
+      throw Exception('Health check failed: $e');
     }
   }
 

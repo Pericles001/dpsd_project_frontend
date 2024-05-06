@@ -154,7 +154,7 @@ class LoginPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
-                      child: const Text('Submit'),
+                      child: const Text('Login'),
                     ),
                   ],
                 ),
