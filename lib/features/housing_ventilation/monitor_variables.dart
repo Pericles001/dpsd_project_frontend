@@ -39,7 +39,7 @@ class _VentilationMonitorState extends State<VentilationMonitor> {
             },
             keyboardType: TextInputType.text,
             decoration: const InputDecoration(
-              hintText: "Please enter the city of the farm",
+              hintText: "Please enter the coordinates of the farm",
             ),
           ),
           actions: <Widget>[
