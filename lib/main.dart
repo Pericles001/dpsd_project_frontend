@@ -2,11 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'auth/login.dart';
 import 'auth/register.dart';
-import 'components/splash_screen.dart'; // Make sure to import the SplashScreen
+import 'components/splash_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+
+
+Future<void> main() async {
+  await dotenv.load();
   runApp(const MyApp());
 }
+
+
+// void main() {
+//   runApp(const MyApp());
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pig farmers',
+      title: 'PorkProsper',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -24,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
-        '/home': (context) => const MyHomePage(title: 'Pig farmers'),
+        '/home': (context) => const MyHomePage(title: 'PorkProsper Home'),
       },
       // Set the initial route
       initialRoute: '/',
@@ -67,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fit: BoxFit.cover,
                       ),
                       const Text(
-                        'Welcome to Pig farmers',
+                        'Welcome to PorkProsper!',
                         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
