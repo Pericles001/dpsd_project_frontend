@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
                     TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
-                        labelText: 'Email',
+                        labelText: 'Username',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -134,6 +134,8 @@ class LoginPage extends StatelessWidget {
                                       child: const Text('OK'),
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        _emailController.clear();
+                                        _passwordController.clear();
                                       },
                                     ),
                                   ],
