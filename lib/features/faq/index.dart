@@ -4,6 +4,7 @@ import '../../auth/login.dart';
 import '../../home/menu.dart';
 import '../alerts/index.dart';
 import '../housing_ventilation/index.dart';
+import '../pig/index.dart';
 
 class FAQIndex extends StatefulWidget {
   const FAQIndex({super.key});
@@ -25,20 +26,26 @@ class _FAQIndexState extends State<FAQIndex> {
         children: const <Widget>[
           Card(
             child: ListTile(
-              title: Text('Question 1'),
-              subtitle: Text('Answer 1'),
+              title: Text('Question: How do I recover my password? '),
+              subtitle: Text('Answer: You can recover your password by clicking on the "Forgot password?" link on the login page. You will receive an email with instructions on how to reset your password.'),
             ),
           ),
           Card(
             child: ListTile(
-              title: Text('Question 2'),
-              subtitle: Text('Answer 2'),
+              title: Text('Question: How can I add a new pig to my account?'),
+              subtitle: Text('Answer: You can add a new pig to your account by clicking on the "Add Pig" button on the Pigs Manager page. You will need to enter the pig\'s details, such as its name, breed, and age.'),
             ),
           ),
           Card(
             child: ListTile(
-              title: Text('Question 3'),
-              subtitle: Text('Answer 3'),
+              title: Text('Question: How do I view the weather forecast for my location?'),
+              subtitle: Text('Answer: You can view the weather forecast for your location by clicking on the "Ambient" tab on the bottom navigation bar. You will see the current temperature, humidity, and other weather parameters for your location.)'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('Question: How do I receive alerts for my pigs?'),
+              subtitle: Text('Answer: You can receive alerts for your pigs by clicking on the "Alerts" tab on the bottom navigation bar. You will receive alerts for important events, such as high temperature, low humidity, and other conditions that may affect your pigs.'),
             ),
           ),
         ],
@@ -83,7 +90,11 @@ class _FAQIndexState extends State<FAQIndex> {
               );
               break;
             case 4:
-            // Add your Pigs Manager page here
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PigManagerIndex()),
+              );
               break;
             case 5:
               Navigator.push(
