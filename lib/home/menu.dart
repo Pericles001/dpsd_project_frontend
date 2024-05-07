@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/alerts/index.dart';
 import '../features/faq/index.dart';
+import '../features/pig/index.dart';
 import '../features/profile/change_password.dart';
 import '../api/api_service.dart';
 import '../main.dart';
@@ -235,14 +236,14 @@ class _HomeMenuState extends State<HomeMenu> {
                         TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(
-                            labelText: 'Email',
+                            labelText: 'Username',
                           ),
                         )
                       else
                         ListTile(
                           leading: const Icon(Icons.email),
                           title: Text(email),
-                          subtitle: const Text('Email'),
+                          subtitle: const Text('Username'),
                         ),
                       Align(
                         alignment: Alignment.bottomRight,
@@ -307,6 +308,12 @@ class _HomeMenuState extends State<HomeMenu> {
               break;
             case 4:
               // Add your Pigs Manager page here
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PigManagerIndex()),
+              );
+
               break;
             case 5:
               _logout();
