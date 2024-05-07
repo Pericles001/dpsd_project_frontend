@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiService {
   static const String baseUrl = 'http://172.29.105.191:8080/api';
@@ -328,11 +329,11 @@ class ApiService {
 
   // method to add ambient variable
   Future<Map<String, dynamic>> addAmbientVariable(
-      String token, String name, double value) async {
+      String token, String name, double threshold) async {
     try {
       var response = await dio.post(
         '$baseUrl/ambient_variables',
-        data: {"name": name, "treshold": value},
+        data: {"name": name, "threshold": threshold},
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -396,6 +397,72 @@ class ApiService {
       }
     } catch (e) {
       throw Exception('Failed to identify disease: $e');
+    }
+  }
+
+//   method to call the openAI api method for prompts: https://api.openai.com/v1/completion
+// use the api key stored in .env file in the root of the project (openai_api_key)
+
+  Future<Map<String, dynamic>> openAI(String prompt) async {
+    try {
+      var response = await dio.post(
+        'https://api.openai.com/v1/completions',
+        data: {
+          "model": "text-davinci-003",
+          "prompt": prompt,
+          "max_tokens": 100,
+          "temperature": 0.5,
+          "n": 1,
+          "stop": ["\n"]
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${dotenv.env['OPENAI_API_KEY']}',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        // Convert the response data to a Map
+        return response.data;
+      } else {
+        throw Exception('Failed to get response from OpenAI');
+      }
+    } catch (e) {
+      throw Exception('Failed to get response from OpenAI: $e');
+    }
+  }
+
+  Future<String> getPromptGemini(String prompt) async {
+    try {
+      var response = await dio.post(
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${dotenv.env['GOOGLE_API_KEY']}',
+        data: {
+          "contents": [
+            {
+              "parts": [
+                {"text": prompt}
+              ]
+            }
+          ]
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        // Convert the response data to a Map
+        var data = response.data;
+        return data['candidates'][0]['content']['parts'][0]['text'];
+      } else {
+        throw Exception('Failed to get response from Gemini API');
+      }
+    } catch (e) {
+      throw Exception('Failed to get response from Gemini API: $e');
     }
   }
 }
