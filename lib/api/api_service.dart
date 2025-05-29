@@ -4,10 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://172.29.105.191:8080/api';
 
-  // 192.168.1.71 for home network
-  // 172.29.105.191 for school
+  // Example for baseUrl can be:   static const String baseUrl = 'http://172.29.105.191:8080/api';
+  // Base url can change depending on the production environment network 
+  // Usage of dotenv is safer than hardcoding the environment path
+  static const String baseUrl = 'http://your_base_url:8080/api';
+
+
   final Dio dio = Dio();
 
   Future<String> registerTestUser() async {
@@ -35,7 +38,7 @@ class ApiService {
   Future<Map<String, dynamic>> fetchWeatherData(String city) async {
     try {
       var response = await dio.get(
-        'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/$city?unitGroup=metric&key=LQ892399QVFZUUCELK66XYCSF&contentType=json',
+        'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/$city?unitGroup=metric&key=${dotenv.env['WEATHER_API_KEY']}&contentType=json',
       );
 
       if (response.statusCode == 200) {
