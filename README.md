@@ -60,18 +60,13 @@ This repository contains the **Frontend** application for the **Pig Farmer** pro
 
 3.  **Install Dependencies**:
 
-    bash
 
-    Copy
 
     `flutter pub get`
 
 4.  **Run the App**:
     Run the application on your emulator or connected device:
 
-    bash
-
-    Copy
 
     `flutter run`
 
@@ -94,35 +89,22 @@ For **API communication**, the **base URL** and **API keys** need to be configur
 1.  **Install `flutter_dotenv`**:
     Add the `flutter_dotenv` package to your `pubspec.yaml` file:
 
-    yaml
-
-    Copy
 
     `dependencies:   flutter:     sdk: flutter   flutter_dotenv: ^5.0.2`
 
 2.  **Create a `.env` File**:
     Create a `.env` file in the root directory of your project and add the following configurations:
 
-    bash
-
-    Copy
 
     `# .env API_BASE_URL=http://172.29.105.191:8080/api   # Local backend URL (change to your own IP) WEATHER_API_KEY=your-weather-api-key-here   # Weather API key`
 
 3.  **Load the Variables**:
     In your Dart files, use the `flutter_dotenv` package to load the variables:
 
-    dart
-
-    Copy
-
     `import 'package:flutter_dotenv/flutter_dotenv.dart';  class ApiService {   static final String baseUrl = dotenv.env['API_BASE_URL']!;   static final String weatherApiKey = dotenv.env['WEATHER_API_KEY']!;    // Example API call   Future<Map<String, dynamic>> fetchWeatherData(String city) async {     final response = await Dio().get(       'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/$city?unitGroup=metric&key=$weatherApiKey&contentType=json',     );     return response.data;   } }`
 
     Ensure that the `.env` file is added to `.gitignore` to keep it out of version control:
 
-    bash
-
-    Copy
 
     `# .gitignore .env`
 
@@ -150,25 +132,16 @@ To run the backend locally via **Docker**:
 
 1.  Clone the backend repository:
 
-    bash
-
-    Copy
 
     `git clone https://github.com/kakpalu/dpsd_project_backend.git cd dpsd_project_backend`
 
 2.  **Build the Docker image**:
 
-    bash
-
-    Copy
 
     `docker-compose build`
 
 3.  **Run the Docker container**:
 
-    bash
-
-    Copy
 
     `docker-compose up -d`
 
@@ -177,18 +150,12 @@ To run the backend locally via **Docker**:
 
 5.  **Check Docker container status**:
 
-    bash
-
-    Copy
 
     `docker-compose ps`
 
 6.  **Access PostgreSQL Database**:
     You can access the database using the following commands:
 
-    bash
-
-    Copy
 
     `docker exec -it pf_db bash psql -U postgres select * from farmers;`
 
@@ -205,9 +172,6 @@ To run the backend locally via **Docker**:
 
 Make sure to exclude the `.env` file from your version control by adding it to your `.gitignore`:
 
-bash
-
-Copy
 
 `# .gitignore .env`
 
