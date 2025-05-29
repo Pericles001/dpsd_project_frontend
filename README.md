@@ -56,3 +56,183 @@ This repository contains the **Frontend** application for the **Pig Farmer** pro
    ```bash
    git clone https://github.com/your-username/dpsd_project2_frontend_iteration_1.git
    cd dpsd_project2_frontend_iteration_1
+
+
+3.  **Install Dependencies**:
+
+    bash
+
+    Copy
+
+    `flutter pub get`
+
+4.  **Run the App**:
+    Run the application on your emulator or connected device:
+
+    bash
+
+    Copy
+
+    `flutter run`
+
+* * *
+
+## **Configuration**
+
+### **Base URL and API Keys**
+
+For **API communication**, the **base URL** and **API keys** need to be configured.
+
+1.  **API Base URL**:
+    The **base URL** points to the backend API. During development, you will be using your local network IP address to connect to the backend (running via Docker). In production, replace it with the actual backend URL.
+
+2.  **Environment Variables**:
+    For sensitive information like **API keys** and **base URL**, it is best practice to use **.env files**. This ensures that sensitive data is not exposed in the codebase.
+
+#### **Steps to Configure the Environment Variables:**
+
+1.  **Install `flutter_dotenv`**:
+    Add the `flutter_dotenv` package to your `pubspec.yaml` file:
+
+    yaml
+
+    Copy
+
+    `dependencies:   flutter:     sdk: flutter   flutter_dotenv: ^5.0.2`
+
+2.  **Create a `.env` File**:
+    Create a `.env` file in the root directory of your project and add the following configurations:
+
+    bash
+
+    Copy
+
+    `# .env API_BASE_URL=http://172.29.105.191:8080/api   # Local backend URL (change to your own IP) WEATHER_API_KEY=your-weather-api-key-here   # Weather API key`
+
+3.  **Load the Variables**:
+    In your Dart files, use the `flutter_dotenv` package to load the variables:
+
+    dart
+
+    Copy
+
+    `import 'package:flutter_dotenv/flutter_dotenv.dart';  class ApiService {   static final String baseUrl = dotenv.env['API_BASE_URL']!;   static final String weatherApiKey = dotenv.env['WEATHER_API_KEY']!;    // Example API call   Future<Map<String, dynamic>> fetchWeatherData(String city) async {     final response = await Dio().get(       'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/$city?unitGroup=metric&key=$weatherApiKey&contentType=json',     );     return response.data;   } }`
+
+    Ensure that the `.env` file is added to `.gitignore` to keep it out of version control:
+
+    bash
+
+    Copy
+
+    `# .gitignore .env`
+
+* * *
+
+## **File Structure Overview**
+
+-   **lib**: Contains all the main Flutter code for the application.
+    -   **api\_service.dart**: Handles the communication with the backend API, including login, user registration, pig vitals, etc.
+    -   **housing\_ventilation**: Includes features for monitoring ventilation and ambient variables.
+    -   **pig**: Includes features for pig management, including adding pigs and tracking their vitals.
+    -   **auth**: Manages user authentication, including login and registration.
+    -   **alerts**: A page for setting and viewing alerts.
+    -   **faq**: A page for frequently asked questions (FAQ).
+* * *
+
+## **Backend Integration**
+
+The frontend interacts with the backend API hosted at the **Kotlin-based backend** repository:
+**[dpsd\_project\_backend](https://github.com/kakpalu/dpsd_project_backend)**
+
+### **Backend Setup**
+
+To run the backend locally via **Docker**:
+
+1.  Clone the backend repository:
+
+    bash
+
+    Copy
+
+    `git clone https://github.com/kakpalu/dpsd_project_backend.git cd dpsd_project_backend`
+
+2.  **Build the Docker image**:
+
+    bash
+
+    Copy
+
+    `docker-compose build`
+
+3.  **Run the Docker container**:
+
+    bash
+
+    Copy
+
+    `docker-compose up -d`
+
+4.  **Access the Swagger API Documentation**:
+    Open `http://localhost:8001/api/swagger/` in your browser to view the API documentation.
+
+5.  **Check Docker container status**:
+
+    bash
+
+    Copy
+
+    `docker-compose ps`
+
+6.  **Access PostgreSQL Database**:
+    You can access the database using the following commands:
+
+    bash
+
+    Copy
+
+    `docker exec -it pf_db bash psql -U postgres select * from farmers;`
+
+* * *
+
+## **Sensitive Information Handling**
+
+### **Environment Variables**:
+
+-   **Do not hardcode** API keys, tokens, or sensitive information in your code.
+-   Use **`.env`** files to store sensitive data locally, and ensure **.env** is included in your `.gitignore` to prevent it from being pushed to version control.
+
+### **.gitignore**:
+
+Make sure to exclude the `.env` file from your version control by adding it to your `.gitignore`:
+
+bash
+
+Copy
+
+`# .gitignore .env`
+
+* * *
+
+## **API Endpoints**
+
+### **User Authentication**
+
+-   **POST** `/api/register`: Registers a new user.
+-   **POST** `/api/login`: Logs in a user and returns a token.
+
+### **Pig Management**
+
+-   **POST** `/api/pigs`: Adds a new pig.
+-   **GET** `/api/pigs`: Retrieves all pigs.
+-   **POST** `/api/pig_vitals`: Adds vitals to a pig.
+-   **GET** `/api/pig_vitals`: Retrieves vitals for a specific pig.
+
+### **Ambient Variables**
+
+-   **POST** `/api/ambient_variables`: Adds an ambient variable (e.g., temperature, humidity).
+-   **GET** `/api/ambient_variables`: Retrieves all ambient variables.
+* * *
+
+## **Conclusion**
+
+This **Pig Farmer Project** provides a management system for pig farming, allowing users to monitor and track the health of pigs, ambient variables, and vitals, while also supporting user authentication. It is a full-stack application that combines Flutter for the frontend with a Kotlin-based backend, making it easy for farmers to manage their operations.
